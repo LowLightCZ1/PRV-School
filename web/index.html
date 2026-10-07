@@ -18,17 +18,22 @@
         <p>Jak ti mohu pomoct? Napiš, jaký máš problém</p>
 
         <section class="form-sec">
-            <form action="" class="">
-                <label for="">Tvůj dotaz:</label><br>
-                <textarea name="survey" id="survey"></textarea>
-            </form>
+            <form action="" class="dotaz" id="question_form">
+                <label for="dotaz">Tvůj dotaz:</label><br>
+                <textarea name="question" id="question" placeholder="Např: Nefunguje mi přihlášení..."></textarea>
 
-            <form action="" class="">
-                <label for="">Email (nepoviné):</label><br>
-                <input type="email" name="text-email" id="text-email">
-            </form>
+                <label for="email">Email (nepoviné):</label><br>
+                <input type="email" name="text-email" id="email">
 
-            <button>Odeslat dotaz</button>
+                <button>Odeslat dotaz</button>
+            </form>
+        </section>  
+
+        <section id="answer">
+            <h2>Odpověd podpory</h2>
+            <div id="answer">
+                Zatím žádný dotaz
+            </div>
         </section>
     </container>
 
