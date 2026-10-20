@@ -3,6 +3,8 @@ const questionArea = document.getElementById("question");
 const answerDiv = document.getElementById("answer");
 const emailInput = document.getElementById("email");
 
+const BACKEND_URL = "https://prv-school.onrender.com/chat"
+
 const USE_BACKEND = false;
 
 const STUDENT_ID = "Hajný_Matěj_4IT";
