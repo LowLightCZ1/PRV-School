@@ -10,18 +10,18 @@ const USE_BACKEND = false;
 const STUDENT_ID = "Hajný_Matěj_4IT";
 
 questionForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const text = questionArea.value.trim();
-    const email = emailInput.value.trim();
+  const text = questionArea.value.trim();
+  const email = emailInput.value.trim();
 
-    if(!text){
-        answerDiv.textContent = "Nejdřív napiš dotaz";
-        return;
-    }
+  if(!text){
+      answerDiv.textContent = "Nejdřív napiš dotaz";
+      return;
+  }
 
-    answerDiv.textContent = "Dotaz se zpracovává";
-    questionForm.querySelector("button").disabled = true;
+  answerDiv.textContent = "Dotaz se zpracovává";
+  questionForm.querySelector("button").disabled = true;
 
   try {
     const payload = {
