@@ -64,7 +64,7 @@ questionForm.addEventListener("submit", async (e) => {
     console.error(err);
     answerDiv.textContent = "Nepodařilo se spojit se serverem.";
   } finally {
-    form.querySelector("button").disabled = false;
+    questionForm.querySelector("button").disabled = false;
     textarea.value = "";
   }
 });
