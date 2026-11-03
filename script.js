@@ -33,7 +33,7 @@ questionForm.addEventListener("submit", async (e) => {
     // --- FAKE MODE (bez backendu) ---
     if (!USE_BACKEND) {
       answerDiv.textContent =
-        `Demo odpověď (bez serveru)\n\n` +
+        `Demo  (bez serveru)\n\n` +
         `Student: ${payload.student}\n` +
         `Dotaz: ${payload.message}`;
       return;

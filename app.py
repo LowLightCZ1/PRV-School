@@ -11,7 +11,7 @@ CORS(app)
 def home():
     return "VDF Support Backend is running"
 
-@app.post("/chat")
+@app.post("/chat")  
 def chat():
     data = request.get_json(silent=True) or {}
     message = (data.get("message") or "").strip()
