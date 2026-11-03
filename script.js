@@ -5,7 +5,7 @@ const emailInput = document.getElementById("email");
 
 const BACKEND_URL = "https://prv-school.onrender.com/chat"
 
-const USE_BACKEND = false;
+const USE_BACKEND = true;
 
 const STUDENT_ID = "Hajný_Matěj_4IT";
 
