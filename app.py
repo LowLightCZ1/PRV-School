@@ -159,6 +159,13 @@ DOTAZ ZÁKAZNÍKA:
             "reply": reply
         })
 
+    except Exception as error:
+        print("Gemini API error:", repr(error))
+
+        return jsonify({
+            "error": "Nepodařilo se vytvořit odpověď podpory."
+        }), 500
+
 
 # ------------------------------------------------------------
 # 6. Lokální spuštění
