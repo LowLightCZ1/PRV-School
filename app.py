@@ -23,7 +23,10 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
-client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+client = OpenAI(
+    api_key=OPENAI_API_KEY,
+    base_url="https://googleapis.com"
+    ) if OPENAI_API_KEY else None
 
 
 # ------------------------------------------------------------
@@ -137,13 +140,15 @@ DOTAZ ZÁKAZNÍKA:
 """
 
     try:
-        response = client.responses.create(
+        response = client.chat.completions.create(
             model=OPENAI_MODEL,
-            instructions=INSTRUCTIONS,
-            input=prompt
+            messages=[
+                {"role": "system", "content": INSTRUCTIONS},
+                {"role": "user", "content": prompt}
+            ]
         )
 
-        reply = (response.output_text or "").strip()
+        reply = (response.choices[0].message.content or "").strip()
 
         if not reply:
             return jsonify({
@@ -153,13 +158,6 @@ DOTAZ ZÁKAZNÍKA:
         return jsonify({
             "reply": reply
         })
-
-    except Exception as error:
-        print("OpenAI API error:", repr(error))
-
-        return jsonify({
-            "error": "Nepodařilo se vytvořit odpověď podpory."
-        }), 500
 
 
 # ------------------------------------------------------------
