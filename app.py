@@ -26,7 +26,7 @@ OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 client = OpenAI(
     api_key=OPENAI_API_KEY,
     base_url="https://googleapis.com"
-    ) if OPENAI_API_KEY else None
+) if OPENAI_API_KEY else None
 
 
 # ------------------------------------------------------------
