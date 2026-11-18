@@ -1,9 +1,9 @@
 import os
+import traceback
 from pathlib import Path
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-#from openai import OpenAI
 from google import genai
 from google.genai import types
 
@@ -157,10 +157,13 @@ DOTAZ ZÁKAZNÍKA:
         })
 
     except Exception as error:
-        print("Gemini API error:", repr(error), getattr(error, "body", None))
-
+        traceback.print_exc()
+        print("Gemini API error:", type(error).__name__,
+              getattr(error, "code", None), getattr(error, "message", None) or str(error))
+    
         return jsonify({
-            "error": "Nepodařilo se vytvořit odpověď podpory."
+            "error": "Nepodařilo se vytvořit odpověď podpory.",
+            "debug": f"{type(error).__name__}: {error}"[:300]   # temporary, remove later
         }), 500
 
 
