@@ -3,7 +3,9 @@ from pathlib import Path
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from openai import OpenAI
+#from openai import OpenAI
+from google import genai
+from google.genai import types
 
 
 # ============================================================
@@ -23,10 +25,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
-client = OpenAI(
-    api_key=OPENAI_API_KEY,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
-) if OPENAI_API_KEY else None
+client = genai.Client(api_key=OPENAI_API_KEY,) if OPENAI_API_KEY else None
 
 
 # ------------------------------------------------------------
@@ -140,15 +139,13 @@ DOTAZ ZÁKAZNÍKA:
 """
 
     try:
-        response = client.chat.completions.create(
+        response = client.models.generate_content(
             model=OPENAI_MODEL,
-            messages=[
-                {"role": "system", "content": INSTRUCTIONS},
-                {"role": "user", "content": prompt}
-            ]
+            contents=prompt,
+            config=types.GenerateContentConfig(system_instruction=INSTRUCTIONS),
         )
 
-        reply = (response.choices[0].message.content or "").strip()
+        reply = (response.text or "").strip()
 
         if not reply:
             return jsonify({
@@ -160,7 +157,7 @@ DOTAZ ZÁKAZNÍKA:
         })
 
     except Exception as error:
-        print("Gemini API error:", repr(error))
+        print("Gemini API error:", repr(error), getattr(error, "body", None))
 
         return jsonify({
             "error": "Nepodařilo se vytvořit odpověď podpory."
