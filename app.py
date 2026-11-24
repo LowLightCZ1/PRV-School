@@ -1,11 +1,9 @@
 import os
-import traceback
 from pathlib import Path
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from google import genai
-from google.genai import types
+from openai import OpenAI
 
 
 # ============================================================
@@ -25,7 +23,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
-client = genai.Client(vertexai=False, api_key=OPENAI_API_KEY,) if OPENAI_API_KEY else None
+client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
 
 
 # ------------------------------------------------------------
@@ -139,13 +137,13 @@ DOTAZ ZÁKAZNÍKA:
 """
 
     try:
-        response = client.models.generate_content(
+        response = client.responses.create(
             model=OPENAI_MODEL,
-            contents=prompt,
-            config=types.GenerateContentConfig(system_instruction=INSTRUCTIONS),
+            instructions=INSTRUCTIONS,
+            input=prompt
         )
 
-        reply = (response.text or "").strip()
+        reply = (response.output_text or "").strip()
 
         if not reply:
             return jsonify({
@@ -157,13 +155,10 @@ DOTAZ ZÁKAZNÍKA:
         })
 
     except Exception as error:
-        traceback.print_exc()
-        print("Gemini API error:", type(error).__name__,
-              getattr(error, "code", None), getattr(error, "message", None) or str(error))
-    
+        print("OpenAI API error:", repr(error))
+
         return jsonify({
-            "error": "Nepodařilo se vytvořit odpověď podpory.",
-            "debug": f"{type(error).__name__}: {error}"[:300]   # temporary, remove later
+            "error": "Nepodařilo se vytvořit odpověď podpory."
         }), 500
 
 
