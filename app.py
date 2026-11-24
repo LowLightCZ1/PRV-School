@@ -25,7 +25,7 @@ app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
 
-client = genai.Client(api_key=OPENAI_API_KEY,) if OPENAI_API_KEY else None
+client = genai.Client(vertexai=True, api_key=OPENAI_API_KEY,) if OPENAI_API_KEY else None
 
 
 # ------------------------------------------------------------
